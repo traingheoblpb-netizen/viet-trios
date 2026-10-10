@@ -1,0 +1,38 @@
+# Roadmap Viet Trios
+
+## Giai doan 1 - Nen tang co ban (Hoan thanh)
+
+- Khoi tao du an va CLI
+- Ho tro script co ban
+- Xu ly dieu kien va bien
+- In ra va xuat du lieu
+- Quan ly goi va bo dich
+
+## Giai doan 2 - Ham, lop va vong lap (Hoan thanh)
+
+- Ho tro dinh nghia ham
+- Ho tro vong lap
+- Ho tro lop va phuong thuc
+- Xu ly danh sach va tu dien
+- Ho tro thu vien chuan
+
+## Giai doan 3 - He sinh thai day du (Dang tien hanh)
+
+- Package manager nang cap
+- Kho goi va mo hinh cai dat
+- Tich hop file va thu muc
+- Tao package so lieu va AI
+
+## Giai doan 4 - Ecosystem phat trien (Tuong lai)
+
+- IDE va trinh soan thao
+- Bo chuan ho va phan tich static
+- Tich hop web va API
+- Chia se package moi
+
+## Giai doan 5 - Cong dong Viet Trios (Tuong lai)
+
+- Diem nuoi de phat trien
+- Community package
+- Cac khoa hoc va giang day
+- Ket noi voi dao tao va phat trien nganh
