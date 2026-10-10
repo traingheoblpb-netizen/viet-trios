@@ -1,18 +1,16 @@
-# Core Parser cho Viet Trios
+# Parser v2 - hoan chinh hon
+
+from __future__ import annotations
 
 import re
 from enum import Enum
-from typing import List, Tuple, Any
+from typing import List, Any
 
 
 class TokenType(Enum):
-    # Literals
     SO = "SO"
     CHUOI = "CHUOI"
-    DUNG = "DUNG"
-    SAI = "SAI"
-    
-    # Keywords
+    BIEN = "BIEN"
     HAM = "HAM"
     LOP = "LOP"
     NEU = "NEU"
@@ -21,8 +19,8 @@ class TokenType(Enum):
     TRA_VE = "TRA_VE"
     IN_RA = "IN_RA"
     XUAT = "XUAT"
-    
-    # Operators
+    DUNG = "DUNG"
+    SAI = "SAI"
     CONG = "CONG"
     TRU = "TRU"
     NHAN = "NHAN"
@@ -35,36 +33,27 @@ class TokenType(Enum):
     NHO = "NHO"
     LON_BANG = "LON_BANG"
     NHO_BANG = "NHO_BANG"
-    VA = "VA"
-    HOAC = "HOAC"
-    KHONG = "KHONG"
-    
-    # Delimiters
     NGOAC_MO = "NGOAC_MO"
     NGOAC_DONG = "NGOAC_DONG"
-    NGOAC_VON_MO = "NGOAC_VON_MO"
-    NGOAC_VON_DONG = "NGOAC_VON_DONG"
     NGOAC_VUONG_MO = "NGOAC_VUONG_MO"
     NGOAC_VUONG_DONG = "NGOAC_VUONG_DONG"
+    NGOAC_VON_MO = "NGOAC_VON_MO"
+    NGOAC_VON_DONG = "NGOAC_VON_DONG"
     DIEM_PHAY = "DIEM_PHAY"
-    DIEM_THAN = "DIEM_THAN"
     DUO_CHAM = "DUO_CHAM"
-    
-    # Special
-    TRANG_THAB = "TRANG_THAB"
-    TIEN_TA = "TIEN_TA"
+    ASSIGN = "ASSIGN"
     EOF = "EOF"
 
 
 class Token:
-    def __init__(self, kieu: TokenType, gia_tri: Any, hang: int, cot: int):
+    def __init__(self, kieu: TokenType, gia_tri: Any, hang: int = 1, cot: int = 1):
         self.kieu = kieu
         self.gia_tri = gia_tri
         self.hang = hang
         self.cot = cot
-    
+
     def __repr__(self):
-        return f"Token({self.kieu}, {self.gia_tri}, {self.hang}, {self.cot})"
+        return f"Token({self.kieu.name}, {self.gia_tri!r})"
 
 
 class Tokenizer:
@@ -73,108 +62,119 @@ class Tokenizer:
         self.vi_tri = 0
         self.hang = 1
         self.cot = 1
-        self.tokens: List[Token] = []
-    
+
     def tokenize(self) -> List[Token]:
+        tokens: List[Token] = []
         while self.vi_tri < len(self.ma):
-            self._bo_qua_khoang_trang()
-            if self.vi_tri >= len(self.ma):
-                break
-            
             ky_tu = self.ma[self.vi_tri]
-            
+
+            if ky_tu.isspace():
+                self._xu_ly_khoang_trang()
+                continue
+
             if ky_tu == '#':
                 self._bo_qua_comment()
                 continue
-            
-            if ky_tu == '"' or ky_tu == "'":
-                self._doc_chuoi(ky_tu)
-            elif ky_tu.isdigit():
-                self._doc_so()
-            elif ky_tu.isalpha() or ky_tu == '_':
-                self._doc_tien_ta()
-            elif ky_tu in '(){}[]':
-                self._doc_ngoac(ky_tu)
-            elif ky_tu in '+-*/%':
-                self._doc_toan_tu(ky_tu)
-            elif ky_tu == '=':
-                self._doc_gan()
-            elif ky_tu == '.':
-                self.tokens.append(Token(TokenType.DIEM_THAN, '.', self.hang, self.cot))
+
+            if ky_tu in ('"', "'"):
+                tokens.append(self._doc_chuoi())
+                continue
+
+            if ky_tu.isdigit() or (ky_tu == '-' and self.vi_tri + 1 < len(self.ma) and self.ma[self.vi_tri + 1].isdigit()):
+                tokens.append(self._doc_so())
+                continue
+
+            if ky_tu.isalpha() or ky_tu == '_':
+                tokens.append(self._doc_bien())
+                continue
+
+            if ky_tu in '()[]{}':
+                tokens.append(self._doc_ngoac())
+                continue
+
+            if ky_tu in '+-*/%':
+                tokens.append(self._doc_toan_tu())
+                continue
+
+            if ky_tu in '=<>!':
+                tokens.append(self._doc_so_sanh())
+                continue
+
+            if ky_tu == ',':
+                tokens.append(Token(TokenType.DIEM_PHAY, ',', self.hang, self.cot))
                 self.vi_tri += 1
                 self.cot += 1
-            elif ky_tu == ',':
-                self.tokens.append(Token(TokenType.DIEM_PHAY, ',', self.hang, self.cot))
+                continue
+
+            if ky_tu == ':':
+                tokens.append(Token(TokenType.DUO_CHAM, ':', self.hang, self.cot))
                 self.vi_tri += 1
                 self.cot += 1
-            elif ky_tu == ':':
-                self.tokens.append(Token(TokenType.DUO_CHAM, ':', self.hang, self.cot))
-                self.vi_tri += 1
-                self.cot += 1
-            else:
-                self.vi_tri += 1
-                self.cot += 1
-        
-        self.tokens.append(Token(TokenType.EOF, None, self.hang, self.cot))
-        return self.tokens
-    
-    def _bo_qua_khoang_trang(self):
-        while self.vi_tri < len(self.ma) and self.ma[self.vi_tri].isspace():
-            if self.ma[self.vi_tri] == '\n':
-                self.hang += 1
-                self.cot = 1
-            else:
-                self.cot += 1
-            self.vi_tri += 1
-    
+                continue
+
+            raise ValueError(f"Ky tu khong ho tro: {ky_tu} tai hang {self.hang}, cot {self.cot}")
+
+        tokens.append(Token(TokenType.EOF, None, self.hang, self.cot))
+        return tokens
+
+    def _xu_ly_khoang_trang(self):
+        if self.ma[self.vi_tri] == '\n':
+            self.hang += 1
+            self.cot = 1
+        else:
+            self.cot += 1
+        self.vi_tri += 1
+
     def _bo_qua_comment(self):
         while self.vi_tri < len(self.ma) and self.ma[self.vi_tri] != '\n':
             self.vi_tri += 1
-    
-    def _doc_chuoi(self, quote):
-        hang_bat_dau = self.hang
-        cot_bat_dau = self.cot
+            self.cot += 1
+
+    def _doc_chuoi(self):
+        dau = self.ma[self.vi_tri]
+        hang = self.hang
+        cot = self.cot
         self.vi_tri += 1
         self.cot += 1
-        noi_dung = ''
-        while self.vi_tri < len(self.ma) and self.ma[self.vi_tri] != quote:
+        noi_dung = ""
+        while self.vi_tri < len(self.ma) and self.ma[self.vi_tri] != dau:
             if self.ma[self.vi_tri] == '\\':
                 self.vi_tri += 1
+                self.cot += 1
                 if self.vi_tri < len(self.ma):
                     noi_dung += self.ma[self.vi_tri]
-                    self.vi_tri += 1
             else:
                 noi_dung += self.ma[self.vi_tri]
-                self.vi_tri += 1
+            self.vi_tri += 1
             self.cot += 1
+        if self.vi_tri >= len(self.ma):
+            raise ValueError("Chuoi khong dong")
         self.vi_tri += 1
         self.cot += 1
-        self.tokens.append(Token(TokenType.CHUOI, noi_dung, hang_bat_dau, cot_bat_dau))
-    
+        return Token(TokenType.CHUOI, noi_dung, hang, cot)
+
     def _doc_so(self):
-        hang_bat_dau = self.hang
-        cot_bat_dau = self.cot
-        so = ''
+        hang = self.hang
+        cot = self.cot
+        bat_dau = self.vi_tri
+        if self.ma[self.vi_tri] == '-':
+            self.vi_tri += 1
+            self.cot += 1
         while self.vi_tri < len(self.ma) and (self.ma[self.vi_tri].isdigit() or self.ma[self.vi_tri] == '.'):
-            so += self.ma[self.vi_tri]
             self.vi_tri += 1
             self.cot += 1
-        if '.' in so:
-            gia_tri = float(so)
-        else:
-            gia_tri = int(so)
-        self.tokens.append(Token(TokenType.SO, gia_tri, hang_bat_dau, cot_bat_dau))
-    
-    def _doc_tien_ta(self):
-        hang_bat_dau = self.hang
-        cot_bat_dau = self.cot
-        ten = ''
+        so = self.ma[bat_dau:self.vi_tri]
+        return Token(TokenType.SO, float(so) if '.' in so else int(so), hang, cot)
+
+    def _doc_bien(self):
+        hang = self.hang
+        cot = self.cot
+        bat_dau = self.vi_tri
         while self.vi_tri < len(self.ma) and (self.ma[self.vi_tri].isalnum() or self.ma[self.vi_tri] == '_'):
-            ten += self.ma[self.vi_tri]
             self.vi_tri += 1
             self.cot += 1
-        
-        keywords = {
+        ten = self.ma[bat_dau:self.vi_tri]
+        mapping = {
             'ham': TokenType.HAM,
             'lop': TokenType.LOP,
             'neu': TokenType.NEU,
@@ -185,61 +185,64 @@ class Tokenizer:
             'xuat': TokenType.XUAT,
             'dung': TokenType.DUNG,
             'sai': TokenType.SAI,
-            'va': TokenType.VA,
-            'hoac': TokenType.HOAC,
-            'khong': TokenType.KHONG,
         }
-        
-        if ten in keywords:
-            self.tokens.append(Token(keywords[ten], ten, hang_bat_dau, cot_bat_dau))
-        else:
-            self.tokens.append(Token(TokenType.TIEN_TA, ten, hang_bat_dau, cot_bat_dau))
-    
-    def _doc_ngoac(self, ky_tu):
+        return Token(mapping.get(ten, TokenType.BIEN), ten, hang, cot)
+
+    def _doc_ngoac(self):
+        ky_tu = self.ma[self.vi_tri]
         hang = self.hang
         cot = self.cot
-        token_map = {
+        mapping = {
             '(': TokenType.NGOAC_MO,
             ')': TokenType.NGOAC_DONG,
-            '{': TokenType.NGOAC_VON_MO,
-            '}': TokenType.NGOAC_VON_DONG,
             '[': TokenType.NGOAC_VUONG_MO,
             ']': TokenType.NGOAC_VUONG_DONG,
+            '{': TokenType.NGOAC_VON_MO,
+            '}': TokenType.NGOAC_VON_DONG,
         }
-        self.tokens.append(Token(token_map[ky_tu], ky_tu, hang, cot))
         self.vi_tri += 1
         self.cot += 1
-    
-    def _doc_toan_tu(self, ky_tu):
+        return Token(mapping[ky_tu], ky_tu, hang, cot)
+
+    def _doc_toan_tu(self):
+        ky_tu = self.ma[self.vi_tri]
         hang = self.hang
         cot = self.cot
-        if self.vi_tri + 1 < len(self.ma):
-            ky_tu_tiep = self.ma[self.vi_tri + 1]
-            if ky_tu == '*' and ky_tu_tiep == '*':
-                self.tokens.append(Token(TokenType.LUY_THUA, '**', hang, cot))
-                self.vi_tri += 2
-                self.cot += 2
-                return
-        
-        token_map = {
+        mapping = {
             '+': TokenType.CONG,
             '-': TokenType.TRU,
             '*': TokenType.NHAN,
             '/': TokenType.CHIA,
             '%': TokenType.MOD,
         }
-        self.tokens.append(Token(token_map[ky_tu], ky_tu, hang, cot))
-        self.vi_tri += 1
-        self.cot += 1
-    
-    def _doc_gan(self):
-        hang = self.hang
-        cot = self.cot
-        if self.vi_tri + 1 < len(self.ma) and self.ma[self.vi_tri + 1] == '=':
-            self.tokens.append(Token(TokenType.BANG, '==', hang, cot))
+        if ky_tu == '*' and self.vi_tri + 1 < len(self.ma) and self.ma[self.vi_tri + 1] == '*':
             self.vi_tri += 2
             self.cot += 2
-        else:
-            self.tokens.append(Token(TokenType.TRANG_THAB, '=', hang, cot))
-            self.vi_tri += 1
-            self.cot += 1
+            return Token(TokenType.LUY_THUA, '**', hang, cot)
+        self.vi_tri += 1
+        self.cot += 1
+        return Token(mapping[ky_tu], ky_tu, hang, cot)
+
+    def _doc_so_sanh(self):
+        hang = self.hang
+        cot = self.cot
+        ky_tu = self.ma[self.vi_tri]
+        if self.vi_tri + 1 < len(self.ma) and self.ma[self.vi_tri + 1] == '=':
+            token_map = {
+                '=': TokenType.BANG,
+                '>': TokenType.LON_BANG,
+                '<': TokenType.NHO_BANG,
+                '!': TokenType.KHAC,
+            }
+            self.vi_tri += 2
+            self.cot += 2
+            return Token(token_map[ky_tu], ky_tu + '=', hang, cot)
+        
+        token_map = {
+            '=': TokenType.ASSIGN,
+            '>': TokenType.LON,
+            '<': TokenType.NHO,
+        }
+        self.vi_tri += 1
+        self.cot += 1
+        return Token(token_map[ky_tu], ky_tu, hang, cot)

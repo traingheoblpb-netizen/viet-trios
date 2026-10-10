@@ -1,155 +1,70 @@
-# Viet Trios - Ngon ngu lap trinh cap cao cho Viet Nam
+# Viet Trios Runtime - Hướng A
 
-Viet Trios la mot he sinh thai lap trinh da cap, duoc thiet ke de tro thanh ngon ngu lap trinh chuan cho cong dong Viet Nam. Voi kien truc mac cho va kha nang mo rong, Viet Trios dua ra mot giai phap lap trinh day du bang tieng Viet khong dau.
+Viet Trios da duoc nang cap theo huong A: runtime va ngon ngu lap trinh chuyen nghiep. Day la pha nham to chuc lai he thong thanh mot runtime co cau truc ro rang, ho tro parser, compiler, bytecode, virtual machine va standard library chuan.
 
-## Tam nhin
+## Muc tieu
 
-Xay dung mot ngon ngu lap trinh cap Python/Go nhung voi tieng Viet khong dau, ho tro:
-- Lap trinh he thong va ung dung
-- Xu ly du lieu va AI/ML
-- Web va API phat trien
-- Giao dien do hoa
-- Tich hop voi Python/Go
+- Xay dung runtime chinh xac hon
+- Chuẩn hóa code parser, compiler, VM
+- Hỗ trợ API, web va toolchain
+- Nâng cấp chất lượng cho cộng đồng phát triển
 
-## Tinh nang chinh
-
-### 1. Core Runtime
-- Engine chay tuong thich Python/Go
-- Ho tro bien, ham, lop, module
-- Quan ly bo nho va toi uu hoa
-- Phan tich tinh va chay nhanh
-
-### 2. Standard Library
-- Math: tinh toan, dai so tuyen tinh
-- Strings: xu ly chuoi va regex
-- File I/O: doc ghi tep va thu muc
-- Network: http, socket, api
-- Data: json, csv, database
-- Concurrency: thread, async/await
-- System: os, subprocess, signals
-
-### 3. Advanced Features
-- Typing va static analysis
-- Exception handling va logging
-- Performance profiling
-- Memory management
-- Parallel processing
-
-### 4. Package Manager
-- Kho goi trung tam
-- Cai dat va cong cu quan ly
-- Versioning va dependencies
-- Community packages
-
-### 5. Development Tools
-- IDE plugins (VSCode, PyCharm)
-- Compiler va JIT
-- Debugger va profiler
-- Testing framework
-- Documentation generator
-
-### 6. Web & API Framework
-- Web server built-in
-- REST API support
-- WebSocket support
-- Template engine
-
-### 7. Data Science Stack
-- NumPy-like arrays
-- Pandas-like dataframes
-- Machine learning tien tich
-- Data visualization
-
-### 8. Community & Ecosystem
-- Forums va documentation
-- Package registry
-- Contributing guidelines
-- Education programs
-
-## Cau truc du an
+## Cấu trúc runtime
 
 ```text
-viet-trios/
-|-- src/
-|   |-- viettrios/
-|   |   |-- core/
-|   |   |   |-- engine.py
-|   |   |   |-- parser.py
-|   |   |   |-- compiler.py
-|   |   |   |-- runtime.py
-|   |   |-- stdlib/
-|   |   |   |-- math.vt
-|   |   |   |-- strings.vt
-|   |   |   |-- files.vt
-|   |   |   |-- network.vt
-|   |   |   |-- data.vt
-|   |   |-- tools/
-|   |   |   |-- cli.py
-|   |   |   |-- package_manager.py
-|   |   |   |-- ide_plugins.py
-|   |   |-- web/
-|   |   |   |-- server.py
-|   |   |   |-- api.py
-|   |   |   |-- framework.py
-|-- docs/
-|-- tests/
-|-- examples/
+src/viettrios/
+|-- engine_v2.py
+|-- parser.py
+|-- compiler.py
+|-- vm.py
+|-- stdlib_toan_hoc.py
+|-- stdlib_chuoi.py
+|-- stdlib_tep.py
+|-- stdlib_mang.py
+|-- stdlib_du_lieu.py
+|-- web_framework.py
+|-- ide_support.py
+|-- quan_ly_goi_v2.py
+|-- cli_v2.py
 ```
 
-## Huong trien khai
+## Thành phần chính
 
-### Pha 1: Core Engine (Hoan thanh)
-- Parser va tokenizer
-- Runtime execution
-- Standard data types
+### Parser
+- Phân tách token
+- Hỗ trợ từ khoá, số, chuỗi, toán tử
+- Chuẩn bị cho compile
 
-### Pha 2: Standard Library (Dang tien hanh)
-- Math, strings, files
-- Network, data structures
-- Exception handling
+### Compiler
+- Chuyển token sang bytecode
+- Chuẩn hóa instruction set
 
-### Pha 3: Advanced Features (Dang tien hanh)
-- Type system va static analysis
-- Async/await va concurrency
-- Performance optimization
+### Virtual Machine
+- Thực thi bytecode
+- Dùng stack để tính toán
 
-### Pha 4: Tooling (Dang tien hanh)
-- Package manager
-- IDE plugins
-- Debugger va profiler
+### Standard Library
+- Toán học
+- Chuỗi
+- File
+- Mạng
+- Dữ liệu
 
-### Pha 5: Web & Data Science (Tuong lai)
+### Tooling
+- CLI v2
+- Package manager v2
 - Web framework
-- Data structures
-- ML integration
+- IDE support
 
-### Pha 6: Community (Tuong lai)
-- Ecosystem phat trien
-- Education programs
-- Global outreach
+## Ví dụ chạy mã
 
-## Su dung
+```python
+from viettrios.engine_v2 import EngineVietTriosV2
 
-```bash
-# Chay script
-vtr chay app.vt
-
-# Khoi tao du an
-vtr khoi_tao my_app
-
-# Cai dat packages
-vtr goi cai_dat package_name
-
-# Chay development server
-vtr server
-
-# Chay tests
-vtr test
-
-# Phat trien code
-vtr build
+engine = EngineVietTriosV2()
+print(engine.chay('in_ra "Xin chao Viet Trios"'))
 ```
 
-## Giay phep
+## Kết luận
 
-MIT - Open source cho cong dong
+Hướng A đã đưa Viet Trios sang giai đoạn runtime chuyên nghiệp hơn, sẵn sàng cho cộng đồng phát triển tiếp tục mở rộng.
