@@ -1,47 +1,93 @@
-# Thu vien chuan Viet Trios
+# Huong dan su dung Viet Trios
 
-## Mo ta
+## Cac lenh co ban
 
-Thu vien chuan Viet Trios cung cap nhung ham tien ich co ban de xu ly chuoi, danh sach, so lieu va phan tich.
-
-## Ham co ban
-
-### noi_chuoi
+### 1. In ra
 
 ```text
-noi_chuoi("Xin ", "chao")
+in ra "Xin chao"
+in ra x
+in ra x + 10
 ```
 
-### doi_chuoi
+### 2. Gan bien
 
 ```text
-doi_chuoi(123)
+x = 5
+y = "Xin chao"
+z = x + 10
 ```
 
-### dem_so
+### 3. Dieu kien
 
 ```text
-dem_so([1, 2, 3])
+neu x > 5:
+    in ra "x lon hon 5"
 ```
 
-### dao_nguoc
+### 4. Vong lap
 
 ```text
-dao_nguoc([1, 2, 3])
+lap i trong [1, 2, 3]:
+    in ra i
 ```
 
-### loc_so
+### 5. Ham
 
 ```text
-loc_so([1, "a", 2, "b"])
+ham tong(a, b):
+    tra_ve a + b
+
+in ra tong(2, 3)
 ```
 
-## Cac muc dich
+### 6. Lop
 
-- Nhanh chong va de su dung cho demo
-- Hieu qua cho cac loi goi thu vien
-- Co the linh hoat moi rong theo nguon mo
+```text
+lop Nguoi:
+    ham xin_chao(self, ten):
+        in ra "Xin chao " + ten
 
-## Tinh nang mo rong
+nguoi = Nguoi()
+nguoi.xin_chao("Tuan")
+```
 
-Ban co the them hamster, bo loc va module tuy chinh trong thu muc `src/viettrios`.
+## Cac toan tu
+
+- Cong: `+`
+- Tru: `-`
+- Nhan: `*`
+- Chia: `/`
+- Chia lay nguyen: `//`
+- Lay du: `%`
+- Luy thua: `**`
+
+## Cac phep so sanh
+
+- Bang: `==`
+- Khac: `!=`
+- Lon hon: `>`
+- Nho hon: `<`
+- Lon hon hoac bang: `>=`
+- Nho hon hoac bang: `<=`
+
+## Kieu du lieu
+
+- So nguyen: `5`, `-10`
+- So thuc: `3.14`, `-2.5`
+- Chuoi: `"Hello"`, `'World'`
+- Dung sai: `dung`, `sai`
+- Danh sach: `[1, 2, 3]`
+- Tu dien: `{"ten": "Tuan"}`
+
+## Vi du chung
+
+```text
+x = 10
+y = 3
+z = x * y
+in ra z
+
+neu z > 20:
+    in ra "Tich lon hon 20"
+```

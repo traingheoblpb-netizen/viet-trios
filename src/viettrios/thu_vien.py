@@ -1,26 +1,33 @@
-def noi_chuoi(*items):
-    return "".join(str(item) for item in items)
+GOI_MAC_DINH = {
+    "viettrios": "0.2.0",
+    "viettrios.std": "0.1.0",
+    "viettrios.core": "0.1.0",
+}
 
 
-def doi_chuoi(gia_tri):
-    return str(gia_tri)
+def tao_goi(ten: str, phien_ban: str = "0.1.0", mo_ta: str = ""):
+    return {
+        "ten": ten,
+        "phien_ban": phien_ban,
+        "mo_ta": mo_ta,
+    }
 
 
-def dem_so(gia_tri):
-    if gia_tri is None:
-        return 0
-    if hasattr(gia_tri, "__len__"):
-        return len(gia_tri)
-    return 0
+def danh_sach_goi():
+    return list(GOI_MAC_DINH.items())
 
 
-def dao_nguoc(danh_sach):
-    return list(reversed(list(danh_sach)))
+def cai_dat_goi(ten: str):
+    if ten in GOI_MAC_DINH:
+        return f"Goi '{ten}' da ton tai trong kho goi mac dinh."
+    GOI_MAC_DINH[ten] = "0.1.0"
+    return f"Da cai dat goi '{ten}'."
 
 
-def loc_so(danh_sach):
-    return [item for item in danh_sach if isinstance(item, (int, float))]
-
-
-def lay_chuoi(gia_tri):
-    return str(gia_tri)
+def goi_thong_tin(ten: str):
+    if ten not in GOI_MAC_DINH:
+        return None
+    return {
+        "ten": ten,
+        "phien_ban": GOI_MAC_DINH[ten],
+    }

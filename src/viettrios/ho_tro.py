@@ -1,10 +1,26 @@
-from viettrios.bo_dich import chuyen_thanh_khong_dau
-from viettrios.quan_ly_goi import danh_sach_goi
+def noi_chuoi(*items):
+    return "".join(str(item) for item in items)
 
 
-def chuyen_doi_nguon(nguon: str) -> str:
-    return chuyen_thanh_khong_dau(nguon)
+def doi_chuoi(gia_tri):
+    return str(gia_tri)
 
 
-def xem_goi() -> list:
-    return danh_sach_goi()
+def dem_so(gia_tri):
+    if gia_tri is None:
+        return 0
+    if hasattr(gia_tri, "__len__"):
+        return len(gia_tri)
+    return 0
+
+
+def dao_nguoc(danh_sach):
+    return list(reversed(list(danh_sach)))
+
+
+def loc_so(danh_sach):
+    return [item for item in danh_sach if isinstance(item, (int, float))]
+
+
+def lay_chuoi(gia_tri):
+    return str(gia_tri)

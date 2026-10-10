@@ -1,126 +1,118 @@
-import re
-from typing import Any, Dict, List, Tuple
+import argparse
+from pathlib import Path
+
+from viettrios.bo_dich import chuyen_thanh_khong_dau
+from viettrios.core import chay_ma
+from viettrios.quan_ly_goi import danh_sach_goi, tao_goi, cai_dat_goi
 
 
-def _danh_gia_an_toan(bieu_thuc: str, scop: Dict[str, Any]) -> Any:
-    bieu_thuc = bieu_thuc.strip()
-
-    if bieu_thuc.startswith('"') and bieu_thuc.endswith('"'):
-        return bieu_thuc[1:-1]
-    if bieu_thuc.startswith("'") and bieu_thuc.endswith("'"):
-        return bieu_thuc[1:-1]
-    if bieu_thuc in scop:
-        return scop[bieu_thuc]
-    if re.fullmatch(r"-?\d+", bieu_thuc):
-        return int(bieu_thuc)
-    if re.fullmatch(r"-?\d+\.\d+", bieu_thuc):
-        return float(bieu_thuc)
-    if bieu_thuc.lower() in {"dung", "true"}:
-        return True
-    if bieu_thuc.lower() in {"sai", "false"}:
-        return False
-
-    try:
-        return eval(bieu_thuc, {"__builtins__": {}}, scop)
-    except Exception:
-        raise ValueError(f"Bieu thuc khong hop le: {bieu_thuc}")
+def tao_tep_demo(duong_dan: Path) -> None:
+    duong_dan.parent.mkdir(parents=True, exist_ok=True)
+    duong_dan.write_text(
+        'x = 10\n'
+        'neu x > 5:\n'
+        '    in ra "x lon hon 5"\n'
+        'in ra "Xin chao, toi la Viet Trios!"\n',
+        encoding='utf-8',
+    )
 
 
-def _xu_ly_lap(dong: str, scop: Dict[str, Any]) -> Tuple[str, int]:
-    if dong.startswith("lap "):
-        phan_lap = dong[4:]
-        if " trong " not in phan_lap:
-            raise ValueError(f"Lap khong hop le: {dong}")
-        bien, phan_trong = phan_lap.split(" trong ", 1)
-        bien = bien.strip()
-        danh_sach = _danh_gia_an_toan(phan_trong.strip(), scop)
-        return bien, danh_sach
-    return None, None
+def khoi_tao_du_an(ten: str) -> None:
+    goc = Path(ten)
+    goc.mkdir(parents=True, exist_ok=True)
+    (goc / "src").mkdir(exist_ok=True)
+    (goc / "tests").mkdir(exist_ok=True)
+    (goc / "README.md").write_text(
+        "# " + ten + "\n\n"
+        "Day la du an Viet Trios moi.\n\n"
+        "Cac lenh co ban:\n\n"
+        "```text\n"
+        "vtr chay app.vt\n"
+        "```\n",
+        encoding='utf-8',
+    )
+    (goc / "app.vt").write_text(
+        'in ra "Xin chao tu ' + ten + '!"\n',
+        encoding='utf-8',
+    )
+    print(f"Du an '{ten}' da duoc khoi tao.")
 
 
-def chay_ma(nguon: str, scop: Dict[str, Any] | None = None) -> str:
-    scop = {} if scop is None else scop
-    ket_qua = []
-    dong = [d.strip() for d in nguon.splitlines() if d.strip()]
+def xu_ly_goi(gia_tri):
+    if gia_tri is None:
+        print("Danh sach goi:")
+        for ten, phien_ban in danh_sach_goi():
+            print(f"- {ten}: {phien_ban}")
+        return
 
-    i = 0
-    while i < len(dong):
-        dong_hien_tai = dong[i]
+    if gia_tri == "danh_sach":
+        for ten, phien_ban in danh_sach_goi():
+            print(f"- {ten}: {phien_ban}")
+        return
 
-        if dong_hien_tai.startswith("in ra "):
-            bieu_thuc = dong_hien_tai[5:].strip()
-            ket_qua.append(str(_danh_gia_an_toan(bieu_thuc, scop)))
-            i += 1
-            continue
+    if gia_tri == "tao":
+        ten = input("Ten goi: ").strip()
+        phien_ban = input("Phien ban: ").strip() or "0.1.0"
+        print(tao_goi(ten, phien_ban))
+        return
 
-        if dong_hien_tai.startswith("xuat "):
-            bieu_thuc = dong_hien_tai[5:].strip()
-            ket_qua.append(str(_danh_gia_an_toan(bieu_thuc, scop)))
-            i += 1
-            continue
+    if gia_tri == "cai_dat":
+        ten = input("Ten goi can cai dat: ").strip()
+        print(cai_dat_goi(ten))
+        return
 
-        if "=" in dong_hien_tai and not dong_hien_tai.startswith("neu ") and not dong_hien_tai.startswith("ham ") and not dong_hien_tai.startswith("lap "):
-            ten, bieu_thuc = [phan.strip() for phan in dong_hien_tai.split("=", 1)]
-            scop[ten] = _danh_gia_an_toan(bieu_thuc, scop)
-            i += 1
-            continue
+    print(f"Lenh goi khong ho tro: {gia_tri}")
 
-        if dong_hien_tai.startswith("neu "):
-            phan_cond = dong_hien_tai[4:]
-            if ":" not in phan_cond:
-                raise ValueError(f"Lenh dieu kien khong hop le: {dong_hien_tai}")
-            dieu_kien, than = [phan.strip() for phan in phan_cond.split(":", 1)]
-            if _danh_gia_an_toan(dieu_kien, scop):
-                ket_qua_phu = chay_ma(than, scop)
-                if ket_qua_phu:
-                    ket_qua.append(ket_qua_phu)
-            i += 1
-            continue
 
-        if dong_hien_tai.startswith("lap "):
-            phan_lap = dong_hien_tai[4:]
-            if " trong " not in phan_lap or ":" not in phan_lap:
-                raise ValueError(f"Lap khong hop le: {dong_hien_tai}")
-            phan_bien, phan_sau = phan_lap.split(" trong ", 1)
-            bien = phan_bien.strip()
-            phan_danh_sach = phan_sau.split(":", 1)[0].strip()
-            danh_sach = _danh_gia_an_toan(phan_danh_sach, scop)
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Viet Trios CLI")
+    subparser = parser.add_subparsers(dest="lenh")
 
-            i += 1
-            than_lap = []
-            while i < len(dong) and dong[i].startswith("    "):
-                than_lap.append(dong[i].strip())
-                i += 1
+    chay_parser = subparser.add_parser("chay", help="Chay tep Viet Trios")
+    chay_parser.add_argument("duong_dan", help="Duong dan den tep .vt")
 
-            try:
-                for phan_tu in danh_sach:
-                    scop[bien] = phan_tu
-                    ket_qua_phu = chay_ma("\n".join(than_lap), scop)
-                    if ket_qua_phu:
-                        ket_qua.append(ket_qua_phu)
-            except TypeError:
-                raise ValueError(f"Danh sach khong hop le cho lap: {phan_danh_sach}")
-            continue
+    demo_parser = subparser.add_parser("demo", help="Chay demo co ban")
 
-        if dong_hien_tai.startswith("ham "):
-            phan_ham = dong_hien_tai[4:]
-            if "(" not in phan_ham or ")" not in phan_ham:
-                raise ValueError(f"Ham khong hop le: {dong_hien_tai}")
-            ten_ham = phan_ham.split("(", 1)[0].strip()
-            tham_so = phan_ham.split("(", 1)[1].split(")", 1)[0].strip()
-            danh_sach_tham_so = [t.strip() for t in tham_so.split(",") if t.strip()]
-            i += 1
-            than_ham = []
-            while i < len(dong) and dong[i].startswith("    "):
-                than_ham.append(dong[i].strip())
-                i += 1
-            scop[ten_ham] = {
-                "tham_so": danh_sach_tham_so,
-                "than_ham": than_ham,
-                "scop_ham": dict(scop),
-            }
-            continue
+    khoi_tao_parser = subparser.add_parser("khoi_tao", help="Khoi tao du an moi")
+    khoi_tao_parser.add_argument("ten", help="Ten du an")
 
-        raise ValueError(f"Lenh khong duoc ho tro: {dong_hien_tai}")
+    bo_dich_parser = subparser.add_parser("bo_dich", help="Chuyen doi chuoi sang tieng Viet khong dau")
+    bo_dich_parser.add_argument("van_ban", help="Van ban dau vao")
 
-    return "\n".join(ket_qua)
+    goi_parser = subparser.add_parser("goi", help="Quan ly goi trong Viet Trios")
+    goi_parser.add_argument("hanh_dong", nargs="?", default=None, help="danh_sach | tao | cai_dat")
+
+    args = parser.parse_args()
+
+    if args.lenh in ("chay", "run"):
+        tep = Path(args.duong_dan)
+        if not tep.exists():
+            raise FileNotFoundError(f"Tep khong ton tai: {tep}")
+        nguon = tep.read_text(encoding='utf-8')
+        print(chay_ma(nguon))
+        return
+
+    if args.lenh in ("demo", "show_demo"):
+        tep_demo = Path("examples/demo.vt")
+        tao_tep_demo(tep_demo)
+        nguon = tep_demo.read_text(encoding='utf-8')
+        print(chay_ma(nguon))
+        return
+
+    if args.lenh in ("khoi_tao", "init"):
+        khoi_tao_du_an(args.ten)
+        return
+
+    if args.lenh == "bo_dich":
+        print(chuyen_thanh_khong_dau(args.van_ban))
+        return
+
+    if args.lenh == "goi":
+        xu_ly_goi(args.hanh_dong)
+        return
+
+    parser.print_help()
+
+
+if __name__ == "__main__":
+    main()
