@@ -1,0 +1,89 @@
+import re
+
+
+def _danh_gia_an_toan(bieu_thuc: str, scop: dict) -> object:
+    bieu_thuc = bieu_thuc.strip()
+
+    if bieu_thuc.startswith('"') and bieu_thuc.endswith('"'):
+        return bieu_thuc[1:-1]
+    if bieu_thuc.startswith("'") and bieu_thuc.endswith("'"):
+        return bieu_thuc[1:-1]
+    if bieu_thuc in scop:
+        return scop[bieu_thuc]
+    if re.fullmatch(r"-?\d+", bieu_thuc):
+        return int(bieu_thuc)
+    if re.fullmatch(r"-?\d+\.\d+", bieu_thuc):
+        return float(bieu_thuc)
+    if bieu_thuc.lower() in {"dung", "true"}:
+        return True
+    if bieu_thuc.lower() in {"sai", "false"}:
+        return False
+
+    try:
+        return eval(bieu_thuc, {"__builtins__": {}}, scop)
+    except Exception:
+        raise ValueError(f"Bieu thuc khong hop le: {bieu_thuc}")
+
+
+def chay_ma(nguon: str, scop: dict | None = None) -> str:
+    scop = {} if scop is None else scop
+    ket_qua = []
+    dong = [dong.strip() for dong in nguon.splitlines() if dong.strip()]
+
+    i = 0
+    while i < len(dong):
+        dong_hien_tai = dong[i]
+
+        if dong_hien_tai.startswith("in ra "):
+            bieu_thuc = dong_hien_tai[5:].strip()
+            ket_qua.append(str(_danh_gia_an_toan(bieu_thuc, scop)))
+            i += 1
+            continue
+
+        if dong_hien_tai.startswith("xuat "):
+            bieu_thuc = dong_hien_tai[5:].strip()
+            ket_qua.append(str(_danh_gia_an_toan(bieu_thuc, scop)))
+            i += 1
+            continue
+
+        if "=" in dong_hien_tai and not dong_hien_tai.startswith("neu ") and not dong_hien_tai.startswith("ham "):
+            ten, bieu_thuc = [phan.strip() for phan in dong_hien_tai.split("=", 1)]
+            scop[ten] = _danh_gia_an_toan(bieu_thuc, scop)
+            i += 1
+            continue
+
+        if dong_hien_tai.startswith("neu "):
+            phan_cond = dong_hien_tai[4:]
+            if ":" not in phan_cond:
+                raise ValueError(f"Lenh dieu kien khong hop le: {dong_hien_tai}")
+            dieu_kien, than = [phan.strip() for phan in phan_cond.split(":", 1)]
+            if _danh_gia_an_toan(dieu_kien, scop):
+                ket_qua_phu = chay_ma(than, scop)
+                if ket_qua_phu:
+                    ket_qua.append(ket_qua_phu)
+            i += 1
+            continue
+
+        if dong_hien_tai.startswith("ham "):
+            phan_ham = dong_hien_tai[4:]
+            if "(" not in phan_ham or ")" not in phan_ham:
+                raise ValueError(f"Ham khong hop le: {dong_hien_tai}")
+            ten_ham = phan_ham.split("(", 1)[0].strip()
+            tham_so = phan_ham.split("(", 1)[1].split(")", 1)[0].strip()
+            danh_sach_tham_so = [t.strip() for t in tham_so.split(",") if t.strip()]
+            i += 1
+            than_ham = []
+            while i < len(dong) and dong[i].startswith("    "):
+                than_ham.append(dong[i].strip())
+                i += 1
+            scope = dict(scop)
+            scop[ten_ham] = {
+                "tham_so": danh_sach_tham_so,
+                "than_ham": than_ham,
+                "scop": scop,
+            }
+            continue
+
+        raise ValueError(f"Lenh khong duoc ho tro: {dong_hien_tai}")
+
+    return "\n".join(ket_qua)

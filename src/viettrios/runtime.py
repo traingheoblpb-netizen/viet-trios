@@ -1,9 +1,9 @@
-from .core import run_code
+from .core import chay_ma
 
 
-class Runtime:
+class ChayThoi:
     def __init__(self):
-        self.scope = {}
+        self.scop = {}
 
-    def run(self, source: str) -> str:
-        return run_code(source, self.scope)
+    def chay(self, nguon: str) -> str:
+        return chay_ma(nguon, self.scop)

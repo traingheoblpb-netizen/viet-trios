@@ -1,21 +1,21 @@
 # Viết Trios
 
-Viết Trios là một hệ sinh thái lập trình theo phong cách Python, nhưng được viết bằng tiếng Việt không dấu và có thể mở rộng thành một môi trường phát triển chuẩn cho nhiều ứng dụng.
+Viết Trios là một hệ sinh thái lập trình theo phong cách Python, nhưng được viết bằng tiếng Việt không dấu. Dự án này mang mục tiêu xây dựng một ngôn ngữ mô phỏng việc lập trình theo kiểu Python, nhưng thân thiện với người Việt, dễ học và dễ mở rộng.
 
 ## Tổng quan
 
 - Ngôn ngữ script theo hướng Python
-- Có phần tập hợp lệnh tiếng Việt không dấu
-- Dùng được cho xử lý dữ liệu, CLI, bot, API và ứng dụng nhiều lớp
-- Có khung dự án và phần mềm để bắt đầu nhanh
+- Có tập hợp lệnh và cấu trúc tiếng Việt không dấu
+- Hỗ trợ xử lý dữ liệu, giao diện dòng lệnh, bot, API và ứng dụng nhiều lớp
+- Có khung dự án và mô hình phát triển chuẩn để bắt đầu nhanh
 
 ## Tính năng chính
 
 - Hệ thống CLI: `vtr`
-- Chạy script `.vt` theo phối cảnh Python-like
-- Mở rộng được qua module và package
-- Khởi tạo dự án mới bằng lệnh `vtr khoi tao`
-- Hỗ trợ test và demo
+- Chạy file `.vt` theo phong cách Python-like
+- Mở rộng qua module và package
+- Khởi tạo dự án mới bằng lệnh `vtr khoi_tao`
+- Hỗ trợ demo, kiểm thử và mở rộng hệ sinh thái
 
 ## Cài đặt
 
@@ -30,7 +30,7 @@ pip install -e .
 ```bash
 vtr demo
 vtr chay examples/hello.vt
-vtr khoi tao my_app
+vtr khoi_tao my_app
 ```
 
 ## Mẫu script
@@ -41,7 +41,7 @@ neu x > 5:
     in ra "x lon hon 5"
 ```
 
-## Các thư mục
+## Cấu trúc thư mục
 
 ```text
 .
@@ -70,6 +70,7 @@ Mục tiêu của Viết Trios là tạo ra một hệ sinh thái lập trình t
 - Phát triển môi trường script
 - Xây dựng ứng dụng nhiều lớp
 - Phát triển tool và CLI nhanh
+- Mở rộng thành ecosystem lập trình Việt Nam chuẩn hóa
 
 ## Giấy phép
 
