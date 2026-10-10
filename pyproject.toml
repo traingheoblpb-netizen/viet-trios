@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "viettrios"
-version = "0.1.0"
-description = "Viet Trios: a Python-like ecosystem in Vietnamese without accents"
+version = "0.2.0"
+description = "Viet Trios: he sinh thai lap trinh theo phong cach Python, viet bang tieng Viet khong dau"
 readme = "README.md"
 requires-python = ">=3.10"
 authors = [{ name = "Viet Trios Team" }]
 license = { text = "MIT" }
-keywords = ["viet", "python", "ecosystem", "cli", "script"]
+keywords = ["viet", "python", "ecosystem", "cli", "script", "tieng viet"]
 dependencies = []
 
 [project.scripts]

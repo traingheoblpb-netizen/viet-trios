@@ -1,0 +1,13 @@
+diem = 85
+
+neu diem >= 90:
+    in ra "Gioi"
+
+neu diem >= 80:
+    in ra "Kha"
+
+neu diem >= 70:
+    in ra "Trung binh"
+
+neu diem < 70:
+    in ra "Yeu"

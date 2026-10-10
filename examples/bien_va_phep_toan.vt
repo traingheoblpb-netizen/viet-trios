@@ -1,0 +1,11 @@
+x = 5
+y = 3
+z = x + y
+in ra "x = " + x
+in ra "y = " + y
+in ra "z = " + z
+
+a = 10
+b = 3
+thao = a / b
+in ra "thao = " + thao

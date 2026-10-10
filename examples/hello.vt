@@ -1,4 +1,1 @@
-x = 10
-neu x > 5:
-    in ra "x lon hon 5"
-in ra "Xin chao, toi la Viet Trios!"
+in ra "Xin chao Viet Trios!"

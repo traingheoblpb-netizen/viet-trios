@@ -1,12 +1,12 @@
 import argparse
 from pathlib import Path
 
-from .core import run_code
+from .core import chay_ma
 
 
-def build_demo_file(path: Path) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
+def tao_tep_demo(duong_dan: Path) -> None:
+    duong_dan.parent.mkdir(parents=True, exist_ok=True)
+    duong_dan.write_text(
         'x = 10\n'
         'neu x > 5:\n'
         '    in ra "x lon hon 5"\n'
@@ -15,58 +15,57 @@ def build_demo_file(path: Path) -> None:
     )
 
 
-def init_project(name: str) -> None:
-    root = Path(name)
-    root.mkdir(parents=True, exist_ok=True)
-    (root / "src").mkdir(exist_ok=True)
-    (root / "tests").mkdir(exist_ok=True)
-    (root / "README.md").write_text(
-        "# " + name + "\n\n"
+def khoi_tao_du_an(ten: str) -> None:
+    goc = Path(ten)
+    goc.mkdir(parents=True, exist_ok=True)
+    (goc / "src").mkdir(exist_ok=True)
+    (goc / "tests").mkdir(exist_ok=True)
+    (goc / "README.md").write_text(
+        "# " + ten + "\n\n"
         "Day la du an Viet Trios moi.\n\n"
         "Cac lenh co ban:\n\n"
         "```text\n"
-        "vtr run app.vt\n"
+        "vtr chay app.vt\n"
         "```\n",
         encoding='utf-8',
     )
-    (root / "app.vt").write_text(
-        'in ra "Xin chao tu ' + name + '!"\n',
+    (goc / "app.vt").write_text(
+        'in ra "Xin chao tu ' + ten + '!"\n',
         encoding='utf-8',
     )
-    print(f"Project '{name}' da duoc khoi tao.")
+    print(f"Du an '{ten}' da duoc khoi tao.")
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Viet Trios CLI")
-    subparsers = parser.add_subparsers(dest="command")
+    subparser = parser.add_subparsers(dest="lenh")
 
-    run_parser = subparsers.add_parser("run", help="Chay file Viet Trios")
-    run_parser.add_argument("path", help="Duong dan den file .vt")
+    chay_parser = subparser.add_parser("chay", help="Chay tep Viet Trios")
+    chay_parser.add_argument("duong_dan", help="Duong dan den tep .vt")
 
-    demo_parser = subparsers.add_parser("demo", help="Chay demo co ban")
-    init_parser = subparsers.add_parser("init", help="Khoi tao du an moi")
-    init_parser.add_argument("name", help="Ten du an")
+    demo_parser = subparser.add_parser("demo", help="Chay demo co ban")
+    khoi_tao_parser = subparser.add_parser("khoi_tao", help="Khoi tao du an moi")
+    khoi_tao_parser.add_argument("ten", help="Ten du an")
 
     args = parser.parse_args()
 
-    if args.command == "run":
-        file_path = Path(args.path)
-        if not file_path.exists():
-            raise FileNotFoundError(f"File khong ton tai: {file_path}")
-        source = file_path.read_text(encoding='utf-8')
-        result = run_code(source)
-        print(result)
+    if args.lenh in ("chay", "run"):
+        tep = Path(args.duong_dan)
+        if not tep.exists():
+            raise FileNotFoundError(f"Tep khong ton tai: {tep}")
+        nguon = tep.read_text(encoding='utf-8')
+        print(chay_ma(nguon))
         return
 
-    if args.command == "demo":
-        demo_path = Path("examples/demo.vt")
-        build_demo_file(demo_path)
-        source = demo_path.read_text(encoding='utf-8')
-        print(run_code(source))
+    if args.lenh in ("demo", "show_demo"):
+        tep_demo = Path("examples/demo.vt")
+        tao_tep_demo(tep_demo)
+        nguon = tep_demo.read_text(encoding='utf-8')
+        print(chay_ma(nguon))
         return
 
-    if args.command == "init":
-        init_project(args.name)
+    if args.lenh in ("khoi_tao", "init"):
+        khoi_tao_du_an(args.ten)
         return
 
     parser.print_help()

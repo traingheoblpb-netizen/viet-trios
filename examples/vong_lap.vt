@@ -1,0 +1,7 @@
+in ra "In so tu 1 den 5:"
+lap so trong [1, 2, 3, 4, 5]:
+    in ra so
+
+in ra "In ky tu:"
+lap ky_tu trong ["a", "b", "c"]:
+    in ra ky_tu
