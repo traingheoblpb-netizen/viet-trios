@@ -1,23 +1,23 @@
-# Viet Trios
+# Viết Trios
 
-Viet Trios la mot he sinh thai lap trinh theo phong cach Python, nhung duoc viet theo tieng Viet khong dau va co the mo rong thanh mot moi truong phat trien chuan cho nhieu ung dung.
+Viết Trios là một hệ sinh thái lập trình theo phong cách Python, nhưng được viết bằng tiếng Việt không dấu và có thể mở rộng thành một môi trường phát triển chuẩn cho nhiều ứng dụng.
 
-## Tong quan
+## Tổng quan
 
-- Ngon ngu script theo huong Python
-- Co phan tap hop lenh tieng Viet khong dau
-- Dung duoc cho xu ly du lieu, CLI, bot, API va ung dung nhieu lop
-- Co khung du an va phan mem de bat dau nhanh
+- Ngôn ngữ script theo hướng Python
+- Có phần tập hợp lệnh tiếng Việt không dấu
+- Dùng được cho xử lý dữ liệu, CLI, bot, API và ứng dụng nhiều lớp
+- Có khung dự án và phần mềm để bắt đầu nhanh
 
-## Tinh nang chinh
+## Tính năng chính
 
-- He thong CLI: `vtr`
-- Chay script `.vt` theo phoi canh Python-like
-- Mo rong duoc qua module va package
-- Khoi tao du an moi bang lenh `vtr init`
-- Ho tro test va demo
+- Hệ thống CLI: `vtr`
+- Chạy script `.vt` theo phối cảnh Python-like
+- Mở rộng được qua module và package
+- Khởi tạo dự án mới bằng lệnh `vtr khoi tao`
+- Hỗ trợ test và demo
 
-## Cai dat
+## Cài đặt
 
 ```bash
 python -m venv .venv
@@ -25,15 +25,15 @@ source .venv/bin/activate
 pip install -e .
 ```
 
-## Su dung
+## Sử dụng
 
 ```bash
 vtr demo
-vtr run examples/hello.vt
-vtr init my_app
+vtr chay examples/hello.vt
+vtr khoi tao my_app
 ```
 
-## Mau script
+## Mẫu script
 
 ```text
 x = 7
@@ -41,7 +41,7 @@ neu x > 5:
     in ra "x lon hon 5"
 ```
 
-## Cac thu muc
+## Các thư mục
 
 ```text
 .
@@ -62,15 +62,15 @@ neu x > 5:
 |   |-- roadmap.md
 ```
 
-## Muc tieu du an
+## Mục tiêu dự án
 
-Muc tieu cua Viet Trios la tao ra mot he sinh thai lap trinh tieng Viet san sang cho:
+Mục tiêu của Viết Trios là tạo ra một hệ sinh thái lập trình tiếng Việt sẵn sàng cho:
 
-- hoc tap va giang day
-- phat trien moi truong script
-- xay dung ung dung nhieu lop
-- phat trien tool va CLI nhanh
+- Học tập và giảng dạy
+- Phát triển môi trường script
+- Xây dựng ứng dụng nhiều lớp
+- Phát triển tool và CLI nhanh
 
-## Giay phep
+## Giấy phép
 
 MIT
