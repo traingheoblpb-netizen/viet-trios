@@ -1,13 +1,11 @@
-diem = 85
+x = 5
+y = 3
+z = x + y
+in ra "x = " + x
+in ra "y = " + y
+in ra "z = " + z
 
-neu diem >= 90:
-    in ra "Gioi"
-
-neu diem >= 80:
-    in ra "Kha"
-
-neu diem >= 70:
-    in ra "Trung binh"
-
-neu diem < 70:
-    in ra "Yeu"
+a = 10
+b = 3
+thao = a / b
+in ra "thao = " + thao

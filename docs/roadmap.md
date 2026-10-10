@@ -1,37 +1,48 @@
-# Roadmap Viet Trios
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
 
-## Giai doan 1 - Nen tang co ban (Hoan thanh)
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
 
-- Khoi tao du an va CLI
-- Ho tro script co ban
-- Xu ly dieu kien va bien
-- In ra va xuat du lieu
+# Virtual environments
+venv/
+env/
+ENV/
 
-## Giai doan 2 - Ham va lap (Dang tien hanh)
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
 
-- Ho tro dinh nghia ham
-- Ho tro vong lap for
-- Xu ly danh sach
-- Khop noi voi thu vien Python
+# OS
+.DS_Store
+Thumbs.db
 
-## Giai doan 3 - Doi tuong va lop (Ke tiep)
+# Project specific
+*.vt.out
+examples/demo.vt
 
-- Dinh nghia lop
-- Tao doi tuong tu lop
-- Ke thua va ghi de
-- Phuong thuc va thuoc tinh
+# Logs
+*.log
 
-## Giai doan 4 - Thu vien chuan (Ke tiep)
-
-- Thu vien toan hoc
-- Thu vien xu ly chuoi
-- Thu vien file va thu muc
-- Thu vien mang
-
-## Giai doan 5 - He sinh thai day du (Tuong lai)
-
-- Package manager
-- Truy cap online
-- Community packages
-- IDE va trinh soan thao
-- Doc va huong dan
+# Pytest
+.pytest_cache/

@@ -1,23 +1,4 @@
-[build-system]
-requires = ["setuptools>=68", "wheel"]
-build-backend = "setuptools.build_meta"
+from .cli import main
 
-[project]
-name = "viettrios"
-version = "0.2.0"
-description = "Viet Trios: he sinh thai lap trinh theo phong cach Python, viet bang tieng Viet khong dau"
-readme = "README.md"
-requires-python = ">=3.10"
-authors = [{ name = "Viet Trios Team" }]
-license = { text = "MIT" }
-keywords = ["viet", "python", "ecosystem", "cli", "script", "tieng viet"]
-dependencies = []
-
-[project.scripts]
-vtr = "viettrios.cli:main"
-
-[tool.setuptools]
-package-dir = {"" = "src"}
-
-[tool.setuptools.packages.find]
-where = ["src"]
+if __name__ == "__main__":
+    main()

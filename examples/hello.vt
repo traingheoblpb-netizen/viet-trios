@@ -1,1 +1,37 @@
-in ra "Xin chao Viet Trios!"
+# Roadmap Viet Trios
+
+## Giai doan 1 - Nen tang co ban (Hoan thanh)
+
+- Khoi tao du an va CLI
+- Ho tro script co ban
+- Xu ly dieu kien va bien
+- In ra va xuat du lieu
+
+## Giai doan 2 - Ham, lop va vong lap (Hoan thanh)
+
+- Ho tro dinh nghia ham
+- Ho tro vong lap for
+- Ho tro lop va phuong thuc
+- Xu ly danh sach va tu dien
+
+## Giai doan 3 - Thu vien chuan (Dang tien hanh)
+
+- Thu vien toan hoc
+- Thu vien xu ly chuoi
+- Thu vien file va thu muc
+- Thu vien mang
+
+## Giai doan 4 - He sinh thai day du (Tuong lai)
+
+- Package manager
+- Truy cap online
+- Cac package cong dong
+- IDE va trinh soan thao
+- Doc va huong dan
+
+## Giai doan 5 - Ecosystem phat trien (Tuong lai)
+
+- Khoi tao kho package rieng
+- Tich hop he thong giao dien
+- Cac mo hinh ung dung phat trien
+- Tich hop AI va xu ly du lieu

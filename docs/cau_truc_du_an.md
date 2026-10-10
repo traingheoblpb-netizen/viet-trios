@@ -1,46 +1,100 @@
-# Cau truc du an Viet Trios
+# Huong dan su dung Viet Trios
 
-## Cau truc cay thu muc
+## Cac lenh co ban
 
-```
-du_an_toi/
-|-- src/
-|   |-- app.vt          (Tep chinh cua ung dung)
-|   |-- thu_vien.vt     (Cac ham tien ich)
-|-- tests/
-|   |-- test_app.vt     (Cac kiem thu)
-|-- README.md           (Mo ta du an)
-|-- pyproject.toml      (Cau hinh du an)
-```
-
-## Dinh nghia du an
-
-### Tep README.md
-
-Mo ta ngan gon ve du an, cach cai dat va su dung.
-
-### Tep app.vt
-
-Doan ma chinh, noi chay chuong trinh.
+### 1. In ra
 
 ```text
-ham xin_chao(ten):
-    in ra "Xin chao " + ten
-
-xin_chao("Tuan")
+in ra "Xin chao"
+in ra x
+in ra x + 10
 ```
 
-### Thu muc thu_vien/
+### 2. Gan bien
 
-Chua cac ham va chuc nang co the tai su dung.
+```text
+x = 5
+y = "Xin chao"
+z = x + 10
+```
 
-### Thu muc tests/
+### 3. Dieu kien
 
-Chua cac tep kiem thu ung dung.
+```text
+neu x > 5:
+    in ra "x lon hon 5"
+```
 
-## Cac quy tac
+### 4. Vong lap
 
-1. Ten bien: chi dung chu thuong, con so, va dau gach duoi. Vi du: `bien_1`, `gia_tri`
-2. Ten ham: tuong tu ten bien. Vi du: `tinh_tong`, `lay_du_lieu`
-3. Thut: dung 4 khoang trang de thut vao.
-4. Comment: dung `# ` de them ghi chu.
+```text
+lap i trong [1, 2, 3]:
+    in ra i
+```
+
+### 5. Ham
+
+```text
+ham tong(a, b):
+    tra_ve a + b
+
+in ra tong(2, 3)
+```
+
+### 6. Lop
+
+```text
+lop Nguoi:
+    ham xin_chao(self, ten):
+        in ra "Xin chao " + ten
+
+nguoi = Nguoi()
+nguoi.xin_chao("Tuan")
+```
+
+## Cac toan tu
+
+- Cong: `+`
+- Tru: `-`
+- Nhan: `*`
+- Chia: `/`
+- Chia lay nguyen: `//`
+- Lay du: `%`
+- Luy thua: `**`
+
+## Cac phep so sanh
+
+- Bang: `==`
+- Khac: `!=`
+- Lon hon: `>`
+- Nho hon: `<`
+- Lon hon hoac bang: `>=`
+- Nho hon hoac bang: `<=`
+
+## Kieu du lieu
+
+- So nguyen: `5`, `-10`
+- So thuc: `3.14`, `-2.5`
+- Chuoi: `"Hello"`, `'World'`
+- Dung sai: `dung`, `sai`
+- Danh sach: `[1, 2, 3]`
+- Tu dien: `{"ten": "Tuan"}`
+
+## Vi du toan hoc
+
+```text
+x = 10
+y = 3
+z = x * y
+in ra z
+
+neu z > 20:
+    in ra "Tich lon hon 20"
+```
+
+## Vi du lap
+
+```text
+lap so trong [1, 2, 3, 4, 5]:
+    in ra so
+```

@@ -1,86 +1,75 @@
-# Huong dan su dung Viet Trios
+import argparse
+from pathlib import Path
 
-## Cac lenh co ban
+from .core import chay_ma
 
-### 1. In ra - In tuc cac gia tri
 
-```text
-in ra "Xin chao"
-in ra x
-in ra x + 10
-```
+def tao_tep_demo(duong_dan: Path) -> None:
+    duong_dan.parent.mkdir(parents=True, exist_ok=True)
+    duong_dan.write_text(
+        'x = 10\n'
+        'neu x > 5:\n'
+        '    in ra "x lon hon 5"\n'
+        'in ra "Xin chao, toi la Viet Trios!"\n',
+        encoding='utf-8',
+    )
 
-### 2. Gan bien - Gan gia tri cho bien
 
-```text
-x = 5
-y = "Xin chao"
-z = x + 10
-```
+def khoi_tao_du_an(ten: str) -> None:
+    goc = Path(ten)
+    goc.mkdir(parents=True, exist_ok=True)
+    (goc / "src").mkdir(exist_ok=True)
+    (goc / "tests").mkdir(exist_ok=True)
+    (goc / "README.md").write_text(
+        "# " + ten + "\n\n"
+        "Day la du an Viet Trios moi.\n\n"
+        "Cac lenh co ban:\n\n"
+        "```text\n"
+        "vtr chay app.vt\n"
+        "```\n",
+        encoding='utf-8',
+    )
+    (goc / "app.vt").write_text(
+        'in ra "Xin chao tu ' + ten + '!"\n',
+        encoding='utf-8',
+    )
+    print(f"Du an '{ten}' da duoc khoi tao.")
 
-### 3. Neu - Dieu kien if
 
-```text
-neu x > 5:
-    in ra "x lon hon 5"
-```
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Viet Trios CLI")
+    subparser = parser.add_subparsers(dest="lenh")
 
-### 4. Lap - Vong lap for
+    chay_parser = subparser.add_parser("chay", help="Chay tep Viet Trios")
+    chay_parser.add_argument("duong_dan", help="Duong dan den tep .vt")
 
-```text
-lap i trong [1, 2, 3]:
-    in ra i
-```
+    demo_parser = subparser.add_parser("demo", help="Chay demo co ban")
+    khoi_tao_parser = subparser.add_parser("khoi_tao", help="Khoi tao du an moi")
+    khoi_tao_parser.add_argument("ten", help="Ten du an")
 
-### 5. Ham - Dinh nghia ham
+    args = parser.parse_args()
 
-```text
-ham tinh_tong(a, b):
-    ket_qua = a + b
-    in ra ket_qua
-```
+    if args.lenh in ("chay", "run"):
+        tep = Path(args.duong_dan)
+        if not tep.exists():
+            raise FileNotFoundError(f"Tep khong ton tai: {tep}")
+        nguon = tep.read_text(encoding='utf-8')
+        print(chay_ma(nguon))
+        return
 
-## Cac toan tu
+    if args.lenh in ("demo", "show_demo"):
+        tep_demo = Path("examples/demo.vt")
+        tao_tep_demo(tep_demo)
+        nguon = tep_demo.read_text(encoding='utf-8')
+        print(chay_ma(nguon))
+        return
 
-- Cong: `+`
-- Tru: `-`
-- Nhan: `*`
-- Chia: `/`
-- Chia lay nguyen: `//`
-- Lay du: `%`
-- Luy thua: `**`
+    if args.lenh in ("khoi_tao", "init"):
+        khoi_tao_du_an(args.ten)
+        return
 
-## Cac phep so sanh
+    parser.print_help()
 
-- Bang: `==`
-- Khac: `!=`
-- Lon hon: `>`
-- Nho hon: `<`
-- Lon hon hoac bang: `>=`
-- Nho hon hoac bang: `<=`
 
-## Kieur du lieu
-
-- So nguyen: `5`, `-10`
-- So thuc: `3.14`, `-2.5`
-- Chuoi: `"Hello"`, `'World'`
-- Dung sai: `dung`, `sai`
-
-## Vi du toan hoc
-
-```text
-x = 10
-y = 3
-z = x * y
-in ra z
-
-neu z > 20:
-    in ra "Tich lon hon 20"
-```
-
-## Vi du lap
-
-```text
-lap so trong [1, 2, 3, 4, 5]:
-    in ra so
-```
+if __name__ == "__main__":
+    main()

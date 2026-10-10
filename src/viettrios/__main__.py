@@ -1,4 +1,3 @@
-from .cli import main
-
-if __name__ == "__main__":
-    main()
+__version__ = "0.2.0"
+__title__ = "Viet Trios"
+__description__ = "He sinh thai lap trinh theo phong cach Python, viet bang tieng Viet khong dau"

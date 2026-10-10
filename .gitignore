@@ -1,42 +1,23 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
 
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
+[project]
+name = "viettrios"
+version = "0.2.0"
+description = "Viet Trios: he sinh thai lap trinh theo phong cach Python, viet bang tieng Viet khong dau"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Viet Trios Team" }]
+license = { text = "MIT" }
+keywords = ["viet", "python", "ecosystem", "cli", "script", "tieng viet"]
+dependencies = []
 
-# Virtual environments
-venv/
-env/
-ENV/
+[project.scripts]
+vtr = "viettrios.cli:main"
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
+[tool.setuptools]
+package-dir = {"" = "src"}
 
-# OS
-.DS_Store
-Thumbs.db
-
-# Project specific
-*.vt.out
-examples/demo.vt
+[tool.setuptools.packages.find]
+where = ["src"]

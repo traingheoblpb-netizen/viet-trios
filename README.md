@@ -1,23 +1,24 @@
-# Viết Trios
+# Viet Trios
 
-Viết Trios là một hệ sinh thái lập trình theo phong cách Python, nhưng được viết bằng tiếng Việt không dấu. Dự án này mang mục tiêu xây dựng một ngôn ngữ mô phỏng việc lập trình theo kiểu Python, nhưng thân thiện với người Việt, dễ học và dễ mở rộng.
+Viet Trios la mot he sinh thai lap trinh theo phong cach Python ma duoc viet bang tieng Viet khong dau. Dung de hoc tap, giang day, demo sang tao va mo rong thanh mot ecosystem phat trien chuan.
 
-## Tổng quan
+## Tong quan
 
-- Ngôn ngữ script theo hướng Python
-- Có tập hợp lệnh và cấu trúc tiếng Việt không dấu
-- Hỗ trợ xử lý dữ liệu, giao diện dòng lệnh, bot, API và ứng dụng nhiều lớp
-- Có khung dự án và mô hình phát triển chuẩn để bắt đầu nhanh
+- Ngon ngu script theo huong Python
+- Co tap hop lenh, bien, ham, vong lap va lop theo tieng Viet khong dau
+- Ho tro xu ly du lieu, CLI, API, bot va ung dung nhieu lop
+- Co khung du an va mo hinh phat trien de bat dau nhanh
+- Co the mo rong thanh mot he sinh thai lap trinh cho nguoi Viet
 
-## Tính năng chính
+## Tinh nang chinh
 
-- Hệ thống CLI: `vtr`
-- Chạy file `.vt` theo phong cách Python-like
-- Mở rộng qua module và package
-- Khởi tạo dự án mới bằng lệnh `vtr khoi_tao`
-- Hỗ trợ demo, kiểm thử và mở rộng hệ sinh thái
+- Hieu thuc CLI: `vtr`
+- Chay file `.vt` theo phong cach Python-like
+- Ho tro bien, so sanh, danh sach, tu dien, dieu kien, vong lap, ham va lop
+- Khoi tao du an moi bang lenh `vtr khoi_tao`
+- Ho tro demo, kiem thu va phat trien mo hinh ecosystem
 
-## Cài đặt
+## Cai dat
 
 ```bash
 python -m venv .venv
@@ -25,7 +26,7 @@ source .venv/bin/activate
 pip install -e .
 ```
 
-## Sử dụng
+## Su dung
 
 ```bash
 vtr demo
@@ -33,15 +34,23 @@ vtr chay examples/hello.vt
 vtr khoi_tao my_app
 ```
 
-## Mẫu script
+## Mau script
 
 ```text
 x = 7
 neu x > 5:
     in ra "x lon hon 5"
+
+lap so trong [1, 2, 3]:
+    in ra so
+
+ham tong(a, b):
+    tra_ve a + b
+
+in ra tong(2, 3)
 ```
 
-## Cấu trúc thư mục
+## Cau truc thu muc
 
 ```text
 .
@@ -56,22 +65,27 @@ neu x > 5:
 |   |   |-- runtime.py
 |-- examples/
 |   |-- hello.vt
+|   |-- ham.vt
+|   |-- lop.vt
 |-- tests/
 |   |-- test_core.py
 |-- docs/
+|   |-- huong_dan.md
+|   |-- cau_truc_du_an.md
 |   |-- roadmap.md
 ```
 
-## Mục tiêu dự án
+## Muc tieu du an
 
-Mục tiêu của Viết Trios là tạo ra một hệ sinh thái lập trình tiếng Việt sẵn sàng cho:
+Muc tieu cua Viet Trios la tao ra mot he sinh thai lap trinh tieng Viet san sang cho:
 
-- Học tập và giảng dạy
-- Phát triển môi trường script
-- Xây dựng ứng dụng nhiều lớp
-- Phát triển tool và CLI nhanh
-- Mở rộng thành ecosystem lập trình Việt Nam chuẩn hóa
+- Hoc tap va giang day
+- Phat trien moi truong script
+- Xay dung ung dung nhieu lop
+- Phat trien tool va CLI nhanh
+- Tang cuong ecosystem cho cac phat trien vien viet
+- Mo rong thanh mot nguon mo cho cong dong
 
-## Giấy phép
+## Giay phep
 
 MIT

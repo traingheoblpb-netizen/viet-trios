@@ -1,0 +1,4 @@
+ham tong(a, b):
+    tra_ve a + b
+
+in ra tong(2, 3)

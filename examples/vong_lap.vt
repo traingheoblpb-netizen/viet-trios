@@ -1,7 +1,13 @@
-in ra "In so tu 1 den 5:"
-lap so trong [1, 2, 3, 4, 5]:
-    in ra so
+diem = 85
 
-in ra "In ky tu:"
-lap ky_tu trong ["a", "b", "c"]:
-    in ra ky_tu
+neu diem >= 90:
+    in ra "Gioi"
+
+neu diem >= 80:
+    in ra "Kha"
+
+neu diem >= 70:
+    in ra "Trung binh"
+
+neu diem < 70:
+    in ra "Yeu"
